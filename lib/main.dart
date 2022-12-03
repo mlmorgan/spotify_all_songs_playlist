@@ -11,12 +11,7 @@ void main() async {
   );
   runApp(const MyApp());
   try {
-    final albumsResponse = await SpotifyRepository().createAllSongsPlaylist();
-    for (var albumItem in albumsResponse.items) {
-      for (var track in albumItem.album.tracks.items) {
-        print(track.name);
-      }
-    }
+    SpotifyRepository().createAllSongsPlaylist();
   } catch (e) {
     print(e);
   }
