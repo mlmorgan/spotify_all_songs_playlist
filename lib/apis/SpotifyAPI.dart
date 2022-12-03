@@ -2,6 +2,8 @@ import 'package:oauth2_client/oauth2_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
 
+import 'secrets.dart';
+
 class SpotifyAPI {
   late OAuth2Helper oauth2Helper;
 
@@ -14,7 +16,7 @@ class SpotifyAPI {
     oauth2Helper = OAuth2Helper(
       client,
       clientId: 'efbd4ddafc824641a5647f84a4be012a',
-      clientSecret: '41a0b0633f7f437fb02e76c7b3baf1d5',
+      clientSecret: spotifyClientSecret,
     );
   }
 
