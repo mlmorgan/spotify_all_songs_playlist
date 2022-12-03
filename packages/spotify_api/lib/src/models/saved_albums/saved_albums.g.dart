@@ -14,6 +14,11 @@ SavedAlbums _$SavedAlbumsFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = SavedAlbums(
           href: $checkedConvert('href', (v) => v as String),
+          items: $checkedConvert(
+              'items',
+              (v) => (v as List<dynamic>)
+                  .map((e) => AlbumItem.fromJson(e as Map<String, dynamic>))
+                  .toList()),
           limit: $checkedConvert('limit', (v) => v as int),
           next: $checkedConvert('next', (v) => v as String?),
           offset: $checkedConvert('offset', (v) => v as int),

@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
-// import 'apis/spotifyAPI.dart';
+import 'package:spotify_repository/spotify_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // SpotifyAPI().playlistPOC();
   runApp(const MyApp());
+  try {
+    final albumsResponse = await SpotifyRepository().createAllSongsPlaylist();
+    for (var albumItem in albumsResponse.items) {
+      for (var track in albumItem.album.tracks.items) {
+        print(track.name);
+      }
+    }
+  } catch (e) {
+    print(e);
+  }
 }
 
 class MyApp extends StatelessWidget {

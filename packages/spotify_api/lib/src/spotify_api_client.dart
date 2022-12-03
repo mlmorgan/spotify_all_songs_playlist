@@ -23,15 +23,15 @@ class SpotifyApiClient {
         scopes: ['user-library-read']);
   }
 
-  static const _baseUrl = 'api.spotify.com/v1';
+  static const _baseUrl = 'api.spotify.com';
 
   Future<SavedAlbums> getSavedAlbums(int limit, int offset) async {
     final savedAlbumsRequest = Uri.https(
       _baseUrl,
-      '/me/albums',
+      '/v1/me/albums',
       {
-        'limit': limit,
-        'offset': offset,
+        'limit': limit.toString(),
+        'offset': offset.toString(),
       },
     );
 
