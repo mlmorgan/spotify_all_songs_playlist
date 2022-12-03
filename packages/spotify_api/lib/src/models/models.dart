@@ -1,1 +1,1 @@
-export 'saved_albums.dart';
+export 'saved_albums/saved_albums.dart';

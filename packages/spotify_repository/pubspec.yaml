@@ -1,17 +1,19 @@
-name: spotify_api
-description: A dart API client for the Spotify API.
+name: spotify_repository
+description: A new Flutter package project.
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
-  envied: ^0.3.0
+  json_annotation: ^4.7.0
   flutter:
     sdk: flutter
-  json_annotation: ^4.7.0
-  oauth2_client: ^3.0.0
+  spotify_api:
+    path: ../spotify_api
 
 dev_dependencies:
   build_runner: ^2.3.2
