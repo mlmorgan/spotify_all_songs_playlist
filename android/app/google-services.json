@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "224795479664",
+    "project_id": "spotify-all-songs-playli-6c572",
+    "storage_bucket": "spotify-all-songs-playli-6c572.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224795479664:android:7e4f57cabd939106222eb5",
+        "android_client_info": {
+          "package_name": "com.example.spotify_all_songs_playlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224795479664-8ofula0o5a60o3jh78q7292gk2d5m5r4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYUAJM9kDtfCk3V-g3MQQxoKRmWq4q4BQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224795479664-8ofula0o5a60o3jh78q7292gk2d5m5r4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224795479664-scls7cmtqbvekrj4los4a60hvrtfhav2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spotifyAllSongsPlaylist"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
