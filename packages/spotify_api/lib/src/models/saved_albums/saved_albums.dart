@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-import '../albums/album_item.dart';
+import '../album_item/album_item.dart';
 
 part 'saved_albums.g.dart';
 
 @JsonSerializable()
-class SavedAlbums {
+class SavedAlbums extends Equatable {
   const SavedAlbums({
     required this.href,
     required this.items,
@@ -26,4 +27,15 @@ class SavedAlbums {
   final int offset;
   final String? previous;
   final int total;
+
+  @override
+  List<Object?> get props => [
+        href,
+        items,
+        limit,
+        next,
+        offset,
+        previous,
+        total,
+      ];
 }

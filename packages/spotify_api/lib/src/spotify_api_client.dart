@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:oauth2_client/oauth2_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
 import 'package:spotify_api/spotify_api.dart';
@@ -9,43 +8,40 @@ import 'package:spotify_api/spotify_api.dart';
 import 'env/env.dart';
 
 class SpotifyApiClient {
-  late OAuth2Helper _oAuth2Helper;
+  SpotifyApiClient({OAuth2Helper? oAuth2Helper})
+      : _oAuth2Helper = oAuth2Helper ??
+            OAuth2Helper(
+              SpotifyOAuth2Client(
+                redirectUri: 'allsongsplaylist:/oauth2redirect',
+                customUriScheme: 'allsongsplaylist',
+              ),
+              clientId: 'efbd4ddafc824641a5647f84a4be012a',
+              clientSecret: Env.clientSecret,
+              scopes: [
+                'user-library-read',
+                'playlist-modify-public',
+                'playlist-modify-private',
+              ],
+            );
 
-  SpotifyApiClient() {
-    final OAuth2Client oAuth2Client = SpotifyOAuth2Client(
-      redirectUri: 'allsongsplaylist:/oauth2redirect',
-      customUriScheme: 'allsongsplaylist',
-    );
-
-    _oAuth2Helper = OAuth2Helper(oAuth2Client,
-        clientId: 'efbd4ddafc824641a5647f84a4be012a',
-        clientSecret: Env.clientSecret,
-        scopes: [
-          'user-library-read',
-          'playlist-modify-public',
-          'playlist-modify-private',
-        ]);
-  }
-
+  final OAuth2Helper _oAuth2Helper;
   static const _baseUrl = 'api.spotify.com';
 
   Future<User> getCurrentUser() async {
-    final getCurrentUserRequest = Uri.https(
+    final request = Uri.https(
       _baseUrl,
       '/v1/me',
     );
 
-    final getCurrentUserResponse =
-        await _oAuth2Helper.get(getCurrentUserRequest.toString());
+    final response = await _oAuth2Helper.get(request.toString());
 
-    final getCurrentUserJson =
-        jsonDecode(getCurrentUserResponse.body) as Map<String, dynamic>;
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
 
-    return User.fromJson(getCurrentUserJson);
+    return User.fromJson(responseJson);
   }
 
   Future<SavedAlbums> getSavedAlbums(int limit, int offset) async {
-    final savedAlbumsRequest = Uri.https(
+    final request = Uri.https(
       _baseUrl,
       '/v1/me/albums',
       {
@@ -54,46 +50,45 @@ class SpotifyApiClient {
       },
     );
 
-    final savedAlbumsResponse =
-        await _oAuth2Helper.get(savedAlbumsRequest.toString());
+    final response = await _oAuth2Helper.get(request.toString());
 
-    final savedAlbumsJson =
-        jsonDecode(savedAlbumsResponse.body) as Map<String, dynamic>;
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
 
-    return SavedAlbums.fromJson(savedAlbumsJson);
+    return SavedAlbums.fromJson(responseJson);
   }
 
   Future<Playlist> createPlaylist(
       String userId, String name, bool public) async {
-    final createPlaylistRequest = Uri.https(
+    final request = Uri.https(
       _baseUrl,
       'v1/users/$userId/playlists',
     );
 
-    final requestBody = jsonEncode({
+    final body = jsonEncode({
       'name': name,
       'public': public,
     });
 
-    final createPlaylistResponse = await _oAuth2Helper
-        .post(createPlaylistRequest.toString(), body: requestBody);
+    final response = await _oAuth2Helper.post(request.toString(), body: body);
 
-    final createPlaylistJson =
-        jsonDecode(createPlaylistResponse.body) as Map<String, dynamic>;
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
 
-    return Playlist.fromJson(createPlaylistJson);
+    return Playlist.fromJson(responseJson);
   }
 
-  Future<void> addItemsToPlaylist(
+  Future<String> addItemsToPlaylist(
       String playlistId, Iterable<String> uris) async {
-    final addItemsToPlaylistRequest = Uri.https(
+    final request = Uri.https(
       _baseUrl,
       'v1/playlists/$playlistId/tracks',
     );
 
-    final requestBody = jsonEncode({'uris': uris});
+    final body = jsonEncode({'uris': uris});
 
-    final response = await _oAuth2Helper
-        .post(addItemsToPlaylistRequest.toString(), body: requestBody);
+    final response = await _oAuth2Helper.post(request.toString(), body: body);
+
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return responseJson['snapshot_id'];
   }
 }

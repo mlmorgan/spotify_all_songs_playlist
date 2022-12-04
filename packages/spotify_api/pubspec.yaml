@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   envied: ^0.3.0
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   json_annotation: ^4.7.0

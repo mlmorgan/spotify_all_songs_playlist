@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 
 import '../album/album.dart';
 
 part 'album_item.g.dart';
 
 @JsonSerializable()
-class AlbumItem {
+class AlbumItem extends Equatable {
   const AlbumItem({
     required this.album,
   });
@@ -14,4 +15,7 @@ class AlbumItem {
       _$AlbumItemFromJson(json);
 
   final Album album;
+
+  @override
+  List<Object?> get props => [album];
 }

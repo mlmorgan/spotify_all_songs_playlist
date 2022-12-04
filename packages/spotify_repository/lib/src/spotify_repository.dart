@@ -10,11 +10,11 @@ class SpotifyRepository {
 
   final SpotifyApiClient _spotifyApiClient;
 
-  Future<void> createAllSongsPlaylist() async {
+  Future<void> createAllSongsPlaylist(String name) async {
     final currentUser = await _getCurrentUser();
 
-    final createdPlaylist = await _spotifyApiClient.createPlaylist(
-        currentUser.id, "All Songs", false);
+    final createdPlaylist =
+        await _spotifyApiClient.createPlaylist(currentUser.id, name, false);
 
     final allSavedAlbumTracks = await _getAllSavedAlbumTracks();
 
