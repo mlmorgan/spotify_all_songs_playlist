@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
-import 'package:spotify_api/spotify_api.dart';
+
+import '../spotify_api.dart';
+import 'models/album_item/album_item.dart';
 
 import 'env/env.dart';
 
@@ -40,7 +42,8 @@ class SpotifyApiClient {
     return User.fromJson(responseJson);
   }
 
-  Future<SavedAlbums> getSavedAlbums(int limit, int offset) async {
+  Future<PaginatedResponse<AlbumItem>> getSavedAlbums(
+      int limit, int offset) async {
     final request = Uri.https(
       _baseUrl,
       '/v1/me/albums',
@@ -54,7 +57,8 @@ class SpotifyApiClient {
 
     final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
 
-    return SavedAlbums.fromJson(responseJson);
+    return PaginatedResponse<AlbumItem>.fromJson(
+        responseJson, AlbumItem.fromJsonModel);
   }
 
   Future<Playlist> createPlaylist(

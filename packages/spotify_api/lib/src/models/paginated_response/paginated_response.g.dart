@@ -2,23 +2,24 @@
 
 // ignore_for_file: implicit_dynamic_parameter
 
-part of 'saved_albums.dart';
+part of 'paginated_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SavedAlbums _$SavedAlbumsFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'SavedAlbums',
+PaginatedResponse<T> _$PaginatedResponseFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) =>
+    $checkedCreate(
+      'PaginatedResponse',
       json,
       ($checkedConvert) {
-        final val = SavedAlbums(
+        final val = PaginatedResponse<T>(
           href: $checkedConvert('href', (v) => v as String),
           items: $checkedConvert(
-              'items',
-              (v) => (v as List<dynamic>)
-                  .map((e) => AlbumItem.fromJson(e as Map<String, dynamic>))
-                  .toList()),
+              'items', (v) => (v as List<dynamic>).map(fromJsonT).toList()),
           limit: $checkedConvert('limit', (v) => v as int),
           next: $checkedConvert('next', (v) => v as String?),
           offset: $checkedConvert('offset', (v) => v as int),
