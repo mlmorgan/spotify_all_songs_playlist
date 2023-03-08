@@ -1,13 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-import '../album_item/album_item.dart';
+part 'paginated_response.g.dart';
 
-part 'saved_albums.g.dart';
-
-@JsonSerializable()
-class SavedAlbums extends Equatable {
-  const SavedAlbums({
+@JsonSerializable(genericArgumentFactories: true)
+class PaginatedResponse<T> extends Equatable {
+  const PaginatedResponse({
     required this.href,
     required this.items,
     required this.limit,
@@ -17,11 +15,11 @@ class SavedAlbums extends Equatable {
     required this.total,
   });
 
-  factory SavedAlbums.fromJson(Map<String, dynamic> json) =>
-      _$SavedAlbumsFromJson(json);
+  factory PaginatedResponse.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+      _$PaginatedResponseFromJson(json, fromJsonT);
 
   final String href;
-  final List<AlbumItem> items;
+  final List<T> items;
   final int limit;
   final String? next;
   final int offset;

@@ -11,7 +11,7 @@ void main() async {
   );
   runApp(const MyApp());
   try {
-    SpotifyRepository().createAllSongsPlaylist();
+    SpotifyRepository().createAllSongsPlaylist("All Songs");
   } catch (e) {
     print(e);
   }

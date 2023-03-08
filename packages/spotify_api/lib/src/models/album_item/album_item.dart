@@ -11,6 +11,9 @@ class AlbumItem extends Equatable {
     required this.album,
   });
 
+  static AlbumItem fromJsonModel(Object? json) =>
+      AlbumItem.fromJson(json as Map<String, dynamic>);
+
   factory AlbumItem.fromJson(Map<String, dynamic> json) =>
       _$AlbumItemFromJson(json);
 
