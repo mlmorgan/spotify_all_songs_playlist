@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:spotify_api/spotify_api.dart';
-import 'package:spotify_repository/spotify_repository.dart';
+
+class PlaylistNameAlreadyExists implements Exception {}
 
 class SpotifyRepository {
   SpotifyRepository({SpotifyApiClient? spotifyApiClient})
@@ -10,25 +10,34 @@ class SpotifyRepository {
 
   final SpotifyApiClient _spotifyApiClient;
 
-  Future<void> createAllSongsPlaylist(String name) async {
+  Future<void> createAllSongsPlaylist(String playlistName) async {
     final currentUser = await _getCurrentUser();
 
-    final createdPlaylist =
-        await _spotifyApiClient.createPlaylist(currentUser.id, name, false);
+    final savedPlaylistNames = await _getAllSavedPlaylistNames();
 
-    final allSavedAlbumTracks = await _getAllSavedAlbumTracks();
+    if (savedPlaylistNames.contains(playlistName)) {
+      throw PlaylistNameAlreadyExists();
+    }
 
-    await _addTracksToPlaylist(createdPlaylist.id, allSavedAlbumTracks);
+    final createdPlaylist = await _spotifyApiClient.createPlaylist(
+      currentUser.id,
+      playlistName,
+      false,
+    );
+
+    final allSavedAlbumTrackUris = await _getAllSavedAlbumTrackUris();
+
+    await _addTracksToPlaylist(createdPlaylist.id, allSavedAlbumTrackUris);
   }
 
   Future<User> _getCurrentUser() async {
     return await _spotifyApiClient.getCurrentUser();
   }
 
-  Future<Set<String>> _getAllSavedAlbumTracks() async {
+  Future<Set<String>> _getAllSavedAlbumTrackUris() async {
     int offset = 0;
     bool nextPageExists = true;
-    Set<String> tracks = {};
+    Set<String> trackUris = {};
 
     do {
       final savedAlbumsPage =
@@ -36,7 +45,7 @@ class SpotifyRepository {
 
       for (var album in savedAlbumsPage.items) {
         for (var track in album.album.tracks.items) {
-          tracks.add(track.uri);
+          trackUris.add(track.uri);
         }
       }
 
@@ -44,7 +53,7 @@ class SpotifyRepository {
       nextPageExists = savedAlbumsPage.next != null;
     } while (nextPageExists);
 
-    return tracks;
+    return trackUris;
   }
 
   Future<void> _addTracksToPlaylist(
@@ -57,5 +66,25 @@ class SpotifyRepository {
 
       skipCount += 100;
     } while (skipCount <= uris.length);
+  }
+
+  Future<Set<String>> _getAllSavedPlaylistNames() async {
+    int offset = 0;
+    bool nextPageExists = true;
+    Set<String> playlistNames = {};
+
+    do {
+      final savedPlaylistsPage =
+          await _spotifyApiClient.getFollowedPlaylists(50, offset);
+
+      for (var playlist in savedPlaylistsPage.items) {
+        playlistNames.add(playlist.name);
+      }
+
+      offset += 50;
+      nextPageExists = savedPlaylistsPage.next != null;
+    } while (nextPageExists);
+
+    return playlistNames;
   }
 }

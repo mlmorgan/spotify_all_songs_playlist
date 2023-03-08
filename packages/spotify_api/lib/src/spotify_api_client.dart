@@ -5,7 +5,6 @@ import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/spotify_oauth2_client.dart';
 
 import '../spotify_api.dart';
-import 'models/album_item/album_item.dart';
 
 import 'env/env.dart';
 
@@ -23,6 +22,7 @@ class SpotifyApiClient {
                 'user-library-read',
                 'playlist-modify-public',
                 'playlist-modify-private',
+                'playlist-read-private',
               ],
             );
 
@@ -94,5 +94,24 @@ class SpotifyApiClient {
     final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
 
     return responseJson['snapshot_id'];
+  }
+
+  Future<PaginatedResponse<Playlist>> getFollowedPlaylists(
+      int limit, int offset) async {
+    final request = Uri.https(
+      _baseUrl,
+      '/v1/me/playlists',
+      {
+        'limit': limit.toString(),
+        'offset': offset.toString(),
+      },
+    );
+
+    final response = await _oAuth2Helper.get(request.toString());
+
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return PaginatedResponse<Playlist>.fromJson(
+        responseJson, Playlist.fromJsonModel);
   }
 }

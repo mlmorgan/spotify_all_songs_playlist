@@ -14,6 +14,7 @@ Playlist _$PlaylistFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = Playlist(
           id: $checkedConvert('id', (v) => v as String),
+          name: $checkedConvert('name', (v) => v as String),
         );
         return val;
       },
