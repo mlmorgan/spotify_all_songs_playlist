@@ -4,8 +4,8 @@ import 'package:spotify_api/spotify_api.dart';
 
 class PlaylistNameAlreadyExists implements Exception {}
 
-class SpotifyRepository {
-  SpotifyRepository({SpotifyApiClient? spotifyApiClient})
+class MusicRepository {
+  MusicRepository({SpotifyApiClient? spotifyApiClient})
       : _spotifyApiClient = spotifyApiClient ?? SpotifyApiClient();
 
   final SpotifyApiClient _spotifyApiClient;
