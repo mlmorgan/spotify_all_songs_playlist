@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
-import 'package:spotify_repository/spotify_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,11 +9,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-  try {
-    SpotifyRepository().createAllSongsPlaylist("All Songs");
-  } catch (e) {
-    print(e);
-  }
 }
 
 class MyApp extends StatelessWidget {
