@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
-import 'package:music_repository/music_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,11 +9,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-  try {
-    MusicRepository().createAllSongsPlaylist("All Songs");
-  } catch (e) {
-    print(e);
-  }
 }
 
 class MyApp extends StatelessWidget {
