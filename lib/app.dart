@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_repository/music_repository.dart';
 
-import 'create_playlist/create_playlist.dart';
+import 'name_playlist/name_playlist.dart';
 
 class AllSongsApp extends StatelessWidget {
   const AllSongsApp({super.key, required MusicRepository musicRepository})
@@ -25,7 +25,7 @@ class AllSongsAppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: CreatePlaylistPage(),
+      home: NamePlaylistPage(),
     );
   }
 }
